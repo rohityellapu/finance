@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Log In
+{% endblock %}
+
+{% block main %}
+
+<table class="table caption-top">
+    <caption>History of transactions</caption>
+    <thead>
+        <tr>
+
+            <th scope="col">Symbol</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Type</th>
+            <th scope="col">Shares</th>
+            <th scope="col">Transacted</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for transact in history %}
+        <tr>
+            <td>{{ transact.symbol }}</td>
+            <td>{{ transact.stock_name }}</td>
+            <td>{{ transact.stock_price }}</td>
+            <td>{{ transact.transaction_type }}</td>
+            <td>{{ transact.no_of_shares }}</td>
+            <td>{{ transact.transacted }}</td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
