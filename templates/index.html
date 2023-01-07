@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Log In
+{% endblock %}
+
+{% block main %}
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th scope="text-start">Symbol</th>
+            <th scope="text-start">Name</th>
+            <th scope="text-end">Shares</th>
+            <th scope="text-end">Price</th>
+            <th scope="text-end">TOTAL</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for stock in stocks %}
+        {% if stock.shares > 0 %}
+        <tr>
+
+            <td>{{ stock.symbol }}</td>
+            <td>{{ stock.stock_name }}</td>
+            <td>{{ stock.shares }}</td>
+            <td class="text-right">{{ usd(stock.price) }}</td>
+            <td>{{ usd(stock.total) }}</td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="4">Cash</td>
+            <td class="text-center">{{ usd(cash) }}</td>
+        </tr>
+        <tr>
+            <td colspan="4">Stocks Value</td>
+            <td class="text-center">{{ usd(total) }}</td>
+        </tr>
+        <tr>
+            <td colspan="4">TOTAL</td>
+            <td class="text-center">{{ usd(cash + total) }}</td>
+        </tr>
+        <tr>
+            <td colspan="4">Profit / Loss</td>
+            <td class="text-center">${{ 10000 - (cash + total) }}</td>
+        </tr>
+    </tfoot>
+</table>
+
+{% endblock %}
