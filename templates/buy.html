@@ -17,4 +17,7 @@ Buy
 
     <button class="btn btn-primary" type="submit">Buy</button>
 </form>
+        {% if err %}
+        <p class="mt-2 text-danger">{{ err }}</p>
+        {% endif %}
 {% endblock %}

@@ -13,4 +13,7 @@
 
     <button class="btn btn-primary" type="submit">Quote</button>
 </form>
+{% if err %}
+<p class="mt-2 text-danger">{{ err }}</p>
+{% endif %}
 {% endblock %}
