@@ -1,7 +1,7 @@
 import os
 import requests
 import urllib.parse
-
+import random
 from flask import redirect, render_template, request, session
 from functools import wraps
 
@@ -40,21 +40,40 @@ def lookup(symbol):
 
     # Contact API
     try:
-        api_key = os.environ.get("API_KEY")
-        url = f"https://cloud.iexapis.com/stable/stock/{urllib.parse.quote_plus(symbol)}/quote?token={api_key}"
-        response = requests.get(url)
+
+        url = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes"
+
+        querystring = {"region": "US", "symbols": f"{symbol}"}
+
+        headers = {
+            "X-RapidAPI-Key": "9c311fa357msh30825da29fc5b12p1f9426jsnc32b7a4f733c",
+            "X-RapidAPI-Host": "apidojo-yahoo-finance-v1.p.rapidapi.com"
+        }
+
+        response = requests.request("GET", url, headers=headers, params=querystring)
+
         response.raise_for_status()
     except requests.RequestException:
         return None
 
     # Parse response
     try:
-        quote = response.json()
-        return {
-            "name": quote["companyName"],
-            "price": float(quote["latestPrice"]),
-            "symbol": quote["symbol"]
-        }
+        quote = response.json()["quoteResponse"]["result"]
+
+        # quote2 = response2.json()
+        if len(quote) == 1:
+            return {
+                "name": quote[0]["longName"],
+                "price": float(quote[0]["regularMarketPrice"]),
+                "symbol": quote[0]["symbol"]
+            }
+        else:
+            quotes = []
+            for q in quote:
+                quotes.append({"name": q["longName"],
+                               "price": float(q["regularMarketPrice"]),
+                               "symbol": q["symbol"]})
+            return quotes
     except (KeyError, TypeError, ValueError):
         return None
 
@@ -62,3 +81,13 @@ def lookup(symbol):
 def usd(value):
     """Format value as USD."""
     return f"${value:,.2f}"
+
+
+def get_username(email):
+    username = ""
+    for c in email:
+        if c == '@':
+            break
+        username += c
+    username += str(int(random.random()*100))
+    return  username
