@@ -1,4 +1,7 @@
-cs50
-Flask
+Flask~=2.2.2
 Flask-Session
-requests
+requests~=2.28.1
+flask_sqlalchemy
+psycopg2
+Werkzeug~=2.2.2
+SQLAlchemy~=1.4.46
