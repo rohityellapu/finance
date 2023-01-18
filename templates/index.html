@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-Log In
+   {{ user }}
 {% endblock %}
 
 {% block main %}
@@ -11,7 +11,8 @@ Log In
             <th scope="text-start">Symbol</th>
             <th scope="text-start">Name</th>
             <th scope="text-end">Shares</th>
-            <th scope="text-end">Price</th>
+            <th scope="text-end">Average</th>
+            <th scope="text-end">Current Price</th>
             <th scope="text-end">TOTAL</th>
         </tr>
     </thead>
@@ -23,6 +24,7 @@ Log In
             <td>{{ stock.symbol }}</td>
             <td>{{ stock.stock_name }}</td>
             <td>{{ stock.shares }}</td>
+            <td>{{ round(stock.average,2) }}</td>
             <td class="text-right">{{ usd(stock.price) }}</td>
             <td>{{ usd(stock.total) }}</td>
         </tr>
@@ -31,20 +33,20 @@ Log In
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="4">Cash</td>
+            <td colspan="5">Cash</td>
             <td class="text-center">{{ usd(cash) }}</td>
         </tr>
         <tr>
-            <td colspan="4">Stocks Value</td>
+            <td colspan="5">Stocks Value</td>
             <td class="text-center">{{ usd(total) }}</td>
         </tr>
         <tr>
-            <td colspan="4">TOTAL</td>
+            <td colspan="5">TOTAL</td>
             <td class="text-center">{{ usd(cash + total) }}</td>
         </tr>
         <tr>
-            <td colspan="4">Profit / Loss</td>
-            <td class="text-center">${{ 10000 - (cash + total) }}</td>
+            <td colspan="5">Profit / Loss</td>
+            <td class="text-center">${{ round((cash + total)-10000,2) }}</td>
         </tr>
     </tfoot>
 </table>
