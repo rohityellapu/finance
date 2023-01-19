@@ -5,13 +5,16 @@
 {% endblock %}
 
 {% block main %}
+{% if quote %}
+<h3 class="mb-4">A share of {{ quote.name }} ({{ quote.symbol }}) costs {{ quote.price }}.</h3>
+{% endif %}
 <form action="/quote" method="post">
     <div class="mb-3">
         <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="username" name="symbol"
             placeholder="Stock Symbol" type="text">
     </div>
 
-    <button class="btn btn-primary" type="submit">Quote</button>
+    <button class="btn btn-primary" type="submit" onclick="showLoader()">Quote</button>
 </form>
 {% if err %}
 <p class="mt-2 text-danger">{{ err }}</p>
