@@ -4,12 +4,11 @@ from sqlalchemy.orm import relation, sessionmaker
 
 Base = declarative_base()
 
-
 class History(Base):
     __tablename__ = "history"
 
     id = Column(Integer, primary_key=True)
-    username = Column(String, ForeignKey('users.username'))
+    user_id = Column(Integer, ForeignKey('users.id'))
     transaction_type = Column(String)
     symbol = Column(String)
     stock_name = Column(String)
@@ -18,18 +17,20 @@ class History(Base):
     total = Column(Numeric)
     transacted = Column(DateTime)
     user = relation('Users', backref="users")
+    p_l = Column(Float)
 
     def __init__(
             self,
-            username=None,
+            user_id=None,
             transaction_type=None,
             symbol=None,
             stock_name=None,
             stock_price=None,
             no_of_shares=None,
             total=None,
-            transacted=None):
-        self.username = username
+            transacted=None,
+            p_l=None):
+        self.user_id = user_id
         self.transaction_type = transaction_type
         self.symbol = symbol
         self.stock_name = stock_name
@@ -37,6 +38,7 @@ class History(Base):
         self.no_of_shares = no_of_shares
         self.total = total
         self.transacted = transacted
+        self.p_l = p_l
 
     def __repr__(self):
         return "History(%r, %r, %r)" % (self.username, self.transaction_type, self.symbol)
@@ -62,15 +64,15 @@ class Users(Base):
 class Holdings(Base):
     __tablename__ = "holdings"
     id = Column(Integer, primary_key=True)
-    username = Column(String, ForeignKey('users.username'))
+    user_id = Column(Integer, ForeignKey('users.id'))
     stock_name = Column(String)
     average_price = Column(Float)
     symbol = Column(String)
     total = Column(Float)
     shares = Column(Integer)
 
-    def __init__(self, username=None, symbol=None, stock_name=None, average_price=None, shares=None, total=None):
-        self.username = username
+    def __init__(self, user_id=None, symbol=None, stock_name=None, average_price=None, shares=None, total=None):
+        self.user_id = user_id
         self.symbol = symbol
         self.stock_name = stock_name
         self.average_price = average_price
