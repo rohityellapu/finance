@@ -1,6 +1,6 @@
 
 from schema import Users
-
+import os
 from sqlalchemy import *
 from sqlalchemy.orm import relation, sessionmaker
 from flask import Flask, flash, redirect, render_template, request, session, Blueprint
@@ -13,7 +13,7 @@ auth = Blueprint('auth', __name__)
 
 
 # Configure SQLAlchemy Library to use PostgresSQL database
-engine = create_engine("postgresql://postgres:mrlonely@database-1.conyko6usosg.us-east-1.rds.amazonaws.com/postgres", echo=True)
+engine = create_engine(os.environ.get('DB_URL'), echo=True)
 db_Session = sessionmaker(bind=engine)
 db_session = db_Session()
 
