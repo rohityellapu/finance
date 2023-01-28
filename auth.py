@@ -1,11 +1,10 @@
 
-from schema import Users, History, Holdings
-from datetime import datetime
+from schema import Users
+
 from sqlalchemy import *
 from sqlalchemy.orm import relation, sessionmaker
 from flask import Flask, flash, redirect, render_template, request, session, Blueprint
-from flask_session import Session
-from functools import wraps
+
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from helpers import apology, login_required, lookup, usd, get_username
