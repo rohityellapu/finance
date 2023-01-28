@@ -60,7 +60,7 @@
         </nav>
         {% if session["cash"] and session["user"] %}
         <header class="d-flex justify-content-between p-2 px-4 bg-secondary bg-opacity-10">
-                <h5 class="m-0 d-flex justify-content-start align-items-center">Available cash: ${{ session["cash"] }}</h5>
+                <h5 class="m-0 d-flex justify-content-start align-items-center">Available Funds: ${{ session["cash"] }}</h5>
 
                 <div class="user d-flex justify-content-start align-items-center">
                     <span class="fs-5 fw-bold">{{ session["user"] }}</span>

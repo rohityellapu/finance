@@ -8,7 +8,7 @@
 <div class="user text-start">
     <h5>Your username: {{ session["user"] }}</h5>
     <h5>Your email: {{ session["email"] }}</h5>
-    <h5>Cash available: {{ session["cash"] }}</h5>
+    <h5>Funds available: {{ session["cash"] }}</h5>
 </div>
 <nav>
   <div class="nav nav-tabs mt-4 fs-sm-6" id="nav-tab" role="tablist">
@@ -25,7 +25,7 @@
             placeholder="New Username" type="text" value={{session["user"]}}>
     </div>
 
-    <button class="btn btn-primary" type="submit" onclick="showLoader()">Change Username</button>
+    <button class="btn btn-primary" type="submit" onclick="showLoader()">Update Username</button>
 </form>
   </div>
   <div class="tab-pane fade text-center" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
@@ -40,7 +40,7 @@
             placeholder="New Password(again)" type="password">
     </div>
 
-    <button class="btn btn-primary" type="submit" onclick="showLoader()">Change Password</button>
+    <button class="btn btn-primary" type="submit" onclick="showLoader()">Update Password</button>
 </form>
   </div>
 
