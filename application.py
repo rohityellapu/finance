@@ -1,14 +1,12 @@
 import os
 
 from schema import Users, History, Holdings
-from datetime import datetime
+
 from sqlalchemy import *
 from sqlalchemy.orm import relation, sessionmaker
 
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
-
-from werkzeug.security import check_password_hash, generate_password_hash
 
 from helpers import apology, login_required, lookup, usd, get_username
 
@@ -16,32 +14,34 @@ from helpers import apology, login_required, lookup, usd, get_username
 from auth import auth
 from stock import stock
 # Configure application
-app = Flask(__name__)
-app.register_blueprint(auth)
-app.register_blueprint(stock)
+application = Flask(__name__)
+application.register_blueprint(auth)
+application.register_blueprint(stock)
 
+# Make sure API key is set
+if not os.environ.get("API_KEY"):
+    raise RuntimeError("API_KEY not set")
+elif not os.environ.get('DB_URL'):
+    raise RuntimeError("DB_URL not set")
 
 # Configure SQLAlchemy Library to use PostgresSQL database
-engine = create_engine("postgresql://postgres:mrlonely@database-1.conyko6usosg.us-east-1.rds.amazonaws.com/postgres", echo=True)
+engine = create_engine(os.environ.get('DB_URL'), echo=True)
 db_Session = sessionmaker(bind=engine)
 db_session = db_Session()
 
 # Ensure templates are auto-reloaded
-app.config["TEMPLATES_AUTO_RELOAD"] = True
+application.config["TEMPLATES_AUTO_RELOAD"] = True
 
 # Custom filter
-app.jinja_env.filters["usd"] = usd
+application.jinja_env.filters["usd"] = usd
 
 # Configure session to use filesystem (instead of signed cookies)
-app.config["SESSION_PERMANENT"] = False
-app.config["SESSION_TYPE"] = "filesystem"
-Session(app)
+application.config["SESSION_PERMANENT"] = False
+application.config["SESSION_TYPE"] = "filesystem"
+Session(application)
 
-# Make sure API key is set
-# if not os.environ.get("API_KEY"):
-#     raise RuntimeError("API_KEY not set")
 
-@app.after_request
+@application.after_request
 def after_request(response):
     """Ensure responses aren't cached"""
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
@@ -50,7 +50,7 @@ def after_request(response):
     return response
 
 
-@app.route("/")
+@application.route("/")
 @login_required
 def index():
     """Show portfolio of stocks"""
@@ -91,14 +91,18 @@ def index():
                            total=round(total_stocks_value, 2), usd=usd, user=session["user"], round=round)
 
 
-@app.errorhandler(404)
+@application.errorhandler(404)
 def page_not_found(e):
     """For no page"""
     # note that we set the 404 status explicitly
     return render_template("no_page.html"), 404
 
 
-@app.errorhandler(500)
+@application.errorhandler(500)
 def server_error():
     return render_template("500.html"), 500
+
+
+if __name__ == "__main__":
+    application.run(host='0.0.0.0')
 
