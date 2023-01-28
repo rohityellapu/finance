@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block title %}
+ Change Password
+{% endblock %}
+
+{% block main %}
+<div class="user text-start">
+    <h5>Your username: {{ session["user"] }}</h5>
+    <h5>Your email: {{ session["email"] }}</h5>
+    <h5>Funds available: {{ session["cash"] }}</h5>
+</div>
+<nav>
+  <div class="nav nav-tabs mt-4 fs-sm-6" id="nav-tab" role="tablist">
+    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Change username</button>
+    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Change Password</button>
+  </div>
+</nav>
+<div class="tab-content mt-4" id="nav-tabContent">
+  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+      <form action="/settings" method="post">
+
+    <div class="mb-3">
+        <input autocomplete="off" class="form-control mx-auto w-auto" name="username"
+            placeholder="New Username" type="text" value={{session["user"]}}>
+    </div>
+
+    <button class="btn btn-primary" type="submit" onclick="showLoader()">Update Username</button>
+</form>
+  </div>
+  <div class="tab-pane fade text-center" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+      <form action="/settings" method="post">
+
+    <div class="mb-3">
+        <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="password"
+            placeholder="New Password" type="password">
+    </div>
+    <div class="mb-3">
+        <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="confirmation"
+            placeholder="New Password(again)" type="password">
+    </div>
+
+    <button class="btn btn-primary" type="submit" onclick="showLoader()">Update Password</button>
+</form>
+  </div>
+
+</div>
+
+{% if err %}
+<p class="mt-2 text-danger">{{ err }}</p>
+{% endif %}
+{% endblock %}

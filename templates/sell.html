@@ -6,8 +6,8 @@ Sell
 
 {% block main %}
 <form action="/sell" method="post">
-    <div class="row justify-content-center">
-        <div class="col-1">
+    <div class="d-flex align-items-center justify-content-center">
+        <div class="">
             <select class="form-select mb-3" aria-label="example" name="symbol">
                 <option disabled>Symbol</option>
                 {% for stock in stocks %}
@@ -22,6 +22,9 @@ Sell
             placeholder="Shares" type="number">
     </div>
 
-    <button class="btn btn-primary" type="submit">Sell</button>
+    <button class="btn btn-primary" type="submit" onclick="showLoader()">Sell</button>
 </form>
+        {% if err %}
+        <p class="mt-2 text-danger">{{ err }}</p>
+        {% endif %}
 {% endblock %}

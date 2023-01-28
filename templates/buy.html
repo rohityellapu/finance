@@ -15,6 +15,9 @@ Buy
             placeholder="Shares" type="number">
     </div>
 
-    <button class="btn btn-primary" type="submit">Buy</button>
+    <button class="btn btn-primary" type="submit" onclick="showLoader()">Buy</button>
 </form>
+        {% if err %}
+        <p class="mt-2 text-danger">{{ err }}</p>
+        {% endif %}
 {% endblock %}

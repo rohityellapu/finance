@@ -1,11 +1,11 @@
 {% extends "layout.html" %}
 
 {% block title %}
-Log In
+ History
 {% endblock %}
 
 {% block main %}
-
+<div class="table-responsive">
 <table class="table caption-top">
     <caption>History of transactions</caption>
     <thead>
@@ -16,6 +16,8 @@ Log In
             <th scope="col">Price</th>
             <th scope="col">Type</th>
             <th scope="col">Shares</th>
+            <th scope="col">Total</th>
+            <th scope="col">P/L</th>
             <th scope="col">Transacted</th>
         </tr>
     </thead>
@@ -27,11 +29,19 @@ Log In
             <td>{{ transact.stock_price }}</td>
             <td>{{ transact.transaction_type }}</td>
             <td>{{ transact.no_of_shares }}</td>
+            <td>{{ round(transact.total, 2) }}</td>
+            {% if transact.p_l %}
+            <td>{{ round(transact.p_l, 2) }}</td>
+            {% else %}
+            <td>0</td>
+            {% endif %}
             <td>{{ transact.transacted }}</td>
+
 
         </tr>
         {% endfor %}
     </tbody>
 </table>
+</div>
 
 {% endblock %}
