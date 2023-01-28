@@ -3,11 +3,8 @@ from datetime import datetime
 from sqlalchemy import *
 from sqlalchemy.orm import relation, sessionmaker
 from flask import Flask, flash, redirect, render_template, request, session, Blueprint
-from flask_session import Session
-from functools import wraps
-from werkzeug.security import check_password_hash, generate_password_hash
 
-from helpers import apology, login_required, lookup, usd, get_username
+from helpers import apology, login_required, lookup, usd
 
 stock = Blueprint('stock', __name__)
 
@@ -126,8 +123,7 @@ def sell():
     # Find all the stocks that the user holds aggregate.
     user_stocks = db_session.query(Holdings.stock_name, Holdings.symbol, Holdings.total,
                                    Holdings.average_price, Holdings.shares). \
-        filter(Holdings.user_id == session["id"]).all()
-
+        filter(Holdings.user_id == session["id"], Holdings.shares > 0).all()
     user_stocks = [dict(row) for row in user_stocks]
 
     if request.method == 'POST':
