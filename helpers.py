@@ -1,6 +1,5 @@
 import os
 import requests
-import urllib.parse
 import random
 from flask import redirect, render_template, request, session
 from functools import wraps
@@ -46,7 +45,7 @@ def lookup(symbol):
         querystring = {"region": "US", "symbols": f"{symbol}"}
 
         headers = {
-            "X-RapidAPI-Key": "9c311fa357msh30825da29fc5b12p1f9426jsnc32b7a4f733c",
+            "X-RapidAPI-Key": os.environ.get('API_KEY'),
             "X-RapidAPI-Host": "apidojo-yahoo-finance-v1.p.rapidapi.com"
         }
 
