@@ -1,6 +1,7 @@
 from sqlalchemy import *
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relation, sessionmaker
+import os
 
 Base = declarative_base()
 
@@ -83,7 +84,7 @@ class Holdings(Base):
         return "User(%r, %r, %r)" % (self.username, self.shares, self.average_price)
 
 
-engine = create_engine("postgresql://postgres:mrlonely@database-1.conyko6usosg.us-east-1.rds.amazonaws.com/postgres", echo=True)
+engine = create_engine(os.environ.get('DB_URL'), echo=True)
 
 Base.metadata.create_all(engine)
 
